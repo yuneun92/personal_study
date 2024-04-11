@@ -114,7 +114,7 @@ tools = [retriever]
 @st.cache_resource
 def load_model():
     '''챗gpt api를 사용해 모델을 불러옵니다'''
-    openai_api_key = "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"
+    openai_api_key = "키를 입력하세요"
     return ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=openai_api_key, streaming=True)
     
 llm = load_model()
