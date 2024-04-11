@@ -1,0 +1,37 @@
+1. 도커 컨테이너 생성(및 실행) : gpu 자원 연결 (그 서버에 있는 거 다)
+sudo docker run -itd --gpus all --name [컨테이너명] -p [포트번호]:8888 -v /nlp:/workspace --net host [이미지명]:[태그]
+
+2. 도커 이미지 만들기
+docker commit [컨테이너명] [이미지명]:[태그]
+>> 안 쓰면 latest로 저장
+ 
+3. 도커 컨테이너 진입
+sudo docker exec -it [컨테이너명] bash
+    
+3. conda 가상환경 접속
+    (* 가상환경 목록 확인 : conda env list)
+    conda activate [가상환경 이름]
+    
+4. 주피터 랩 실행
+    jupyter lab --ip=[서버] --port=[포트번호] --allow-root
+
+5. 실행 중인 컨테이너 나가기
+5.1. 중지하고 나가기
+ctrl C 혹은 sudo docker stop [컨테이너명]
+
+5.2. 중지 안 하고 나가기
+ctrl PQ
+
+6. 도커 이미지 없애기
+sudo docker rm ai_nlp_llm4
+
+* Unknown device 에러나면 컨테이너 재기동하고 주피터랩 실행
+
+1. 컨테이너 재기동
+  - docker stop [도커명]
+  - docker start [도커명]
+
+2. jupyter lab 실행
+  - conda activate [가상환경 이름]
+  - jupyter lab --ip=[서버] --port [포트 번호] ----allow-root  (jupyter lab 실행)
+
