@@ -40,20 +40,11 @@ collection_name = "ai_nlp_langchain_kr_v1.3"
 
 # @st.cache_data(show_spinner=False, allow_output_mutation=True, ttl=3600)
 def translate(corpus):
-    '''google translation으로 받아온 모든 질문을 한국어로 번역합니다 
-    번역 대상 언어는 주로 영어, 베트남어이며, auto로 언어를 인식하기 때문에 모든 언어에 적용 가능합니다.
-    번역을 거친 뒤 후처리 코드까지 포함되어 있습니다.'''
-    #초벌 번역 수행
-    corpus = GoogleTranslator(source='auto', target='ko').translate(text=corpus)
-    temp = corpus.replace('ㅏ', 'a').replace('에프메아', 'FMEA') #a가 ㅏ로 번역되는 오류가 있어 후처리
-    temp = temp.replace('Air Zoom Alphafly Next Nature','에어 줌 알파플라이 넥스트 네이처').replace('제어 계획', 'control plan')
-    temp = temp.replace('Jordan Air', '조던 에어').replace('zoom fly', '줌 플라이').replace('Zoom Fly', '줌 플라이')
-    
-    return temp
+    rst = GoogleTranslator(source='auto', target='ko').translate(text=corpus) 
+    return rst
     
 # @st.cache_data(show_spinner=True, ttl=3600, hash_funcs={chromadb.HttpClient: id})    
 def get_collection_documents():
-    '''앙상블 리트리버 사용을 위해 도큐먼트와 메타정보를 모두 메모리로 불러옵니다.'''
     collection = chroma_client.get_collection(collection_name)
     data = collection.get()
     documents = data['documents']
@@ -80,15 +71,6 @@ def trans_data():
 # 불러온 메모리에서 검색하기
 @tool('retriever')
 def retriever(query):
-    '''
-    검색 결과에서 상위 3개의 내용과 메타데이터를 딕셔너리 형태로 리턴하는 함수
-    Args:
-        query: 사용자 질문
-        weights: BM25와 chromadb의 비율
-    Returns:
-        content: 상위 3개 문서 내용 리스트
-        metadata: 상위 3개 문서 메타 데이터 리스트
-    '''
     weights = [0.6, 0.4]
 
     chroma_docs = trans_data()
@@ -113,9 +95,7 @@ tools = [retriever]
 
 @st.cache_resource
 def load_model():
-    '''챗gpt api를 사용해 모델을 불러옵니다'''
-    openai_api_key = "키를 입력하세요"
-    return ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=openai_api_key, streaming=True)
+    return ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key='openai_api_key', streaming=True)
     
 llm = load_model()
 memory_key = "history" #대화 내역을 기록할 메모리 키입니다.
@@ -190,8 +170,7 @@ def process_message(prompt, response):
 
 
 def main():
-    st.header('💬 창신 사내 챗봇')
-    st.caption("💡 이 챗봇은 창신 사내에서 사용되며, 데이터에 기반해 답변합니다. 질문을 입력해주세요.")
+    st.header('💬 사내 챗봇')
     st.sidebar.title("Chat History")
     user_messages = [message['content'] for message in st.session_state.get("messages", []) if message["role"] == "user"]
 
