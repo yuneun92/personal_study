@@ -33,7 +33,7 @@ embedding_model = HuggingFaceEmbeddings(
 
 
 # 크로마 DB 접속, 도큐먼트의 컨텐츠와 메타 정보 메모리에 불러오기
-chroma_host = '172.16.16.112'
+chroma_host = '호스트를 입력'
 chroma_port = '8000'
 chroma_client = chromadb.HttpClient(host=chroma_host, port=chroma_port)    
 collection_name = "ai_nlp_langchain_kr_v1.3"
