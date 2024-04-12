@@ -33,5 +33,5 @@ sudo docker rm ai_nlp_llm4
 
 2. jupyter lab 실행
   - conda activate [가상환경 이름]
-  - jupyter lab --ip=[서버] --port [포트 번호] ----allow-root  (jupyter lab 실행)
+  - jupyter lab --ip=[서버] --port [포트 번호] --allow-root  (jupyter lab 실행)
 
