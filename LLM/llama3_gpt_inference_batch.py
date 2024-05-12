@@ -107,3 +107,29 @@ for i in range(len_data):
     
     print(f'{i+1}번째 처리 완료')
 
+# 엑셀로 저장하기
+response_df = pd.DataFrame(columns=['File', 'Chunk_ID', 'GPT Response', 'Llama Response'])
+
+# 각 청크 아이디에 대한 응답을 데이터프레임에 추가
+for file, chunks in gpt_ans.items():
+    for chunk_id, gpt_response in chunks.items():
+        if chunk_id in llama_ans[file]:
+            llama_response = llama_ans[file][chunk_id]
+            # 응답이 리스트 형태인 경우 각각의 답변을 별도의 행으로 추가
+            if isinstance(gpt_response, list):
+                for i in range(len(gpt_response)):
+                    response_df = response_df.append({'File': file, 'Chunk_ID': chunk_id,
+                                                      'GPT Response': gpt_response[i],
+                                                      'Llama Response': llama_response[i]}, ignore_index=True)
+            else:
+                response_df = response_df.append({'File': file, 'Chunk_ID': chunk_id,
+                                                  'GPT Response': gpt_response,
+                                                  'Llama Response': llama_response}, ignore_index=True)
+        else:
+            # 청크 아이디가 llama_ans에 없는 경우는 gpt_response만 추가
+            response_df = response_df.append({'File': file, 'Chunk_ID': chunk_id,
+                                              'GPT Response': gpt_response,
+                                              'Llama Response': None}, ignore_index=True)
+
+# 엑셀 파일로 데이터프레임 저장
+response_df.to_excel("./data/response_extracted.xlsx", index=False)
