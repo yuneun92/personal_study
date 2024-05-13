@@ -52,21 +52,17 @@ import openai
 openai.api_key = ""
 len_data = len(data)
 
-
-import openai
-openai.api_key = ""
-
-# gpt_ans와 llama_ans를 딕셔너리로 초기화
-gpt_ans = {}
-llama_ans = {}
-
 system_message = "Referencing the text, "
 import re
-
-# 각 청크 아이디에 대한 응답을 리스트로 저장하기 위한 딕셔너리
+import pandas as pd
 chunk_responses = {}
+expert_llama = dict()
+expert_gpt = dict()
 
-for i in range(len_data):
+# 데이터프레임 초기화
+expert_data = {'File': [], 'Chunk_ID': [], 'Question': [], 'Response_gpt': [], 'Response_llama': []}
+
+for i in range(102):
     row = rest_filled.iloc[i]
     query = row['질문'].split('\n')[0]
     file = row['문서'].split(r'\s(')[0]
@@ -74,62 +70,80 @@ for i in range(len_data):
     chunk_id = str(row['청크']).split(',')[0]
     
     if file not in llama_ans:
-        llama_ans[file] = {}
+        expert_llama[file] = {}
 
-    llama_response = generate_response(system_message + query, chunks[file_path][chunk_id])
+    llama_response = generate_response(system_message + query, data[file_path][chunk_id])
     
-    # 청크 아이디가 이미 존재하면 리스트에 추가
-    if chunk_id in chunk_responses:
-        chunk_responses[chunk_id].append(llama_response)
-    else:
-        chunk_responses[chunk_id] = [llama_response]
-        
-    llama_ans[file][chunk_id] = llama_response
-
     if file not in gpt_ans:
-        gpt_ans[file] = {}
+        expert_gpt[file] = {}
 
-    response = openai.chat.completions.create(
+    gpt_response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": system_message + query},
-            {"role": "user", "content": chunks[file_path][chunk_id]},
+            {"role": "user", "content": data[file_path][chunk_id]},
         ]
     )
-    gpt_response = response.choices[0].message.content
-    # 청크 아이디가 이미 존재하면 리스트에 추가
-    if chunk_id in chunk_responses:
-        chunk_responses[chunk_id].append()
-    else:
-        chunk_responses[chunk_id] = [gpt_response]
     
-    gpt_ans[file][chunk_id] = gpt_response
+    # 응답 추가
+    expert_data['File'].append(file)
+    expert_data['Chunk_ID'].append(chunk_id + str(i))
+    expert_data['Question'].append(system_message + query)
+    expert_data['Response_llama'].append(llama_response)
+    expert_data['Response_gpt'].append(gpt_response.choices[0].message.content)
+
+    expert_llama[file][chunk_id + str(i)] = llama_response
+    expert_gpt[file][chunk_id + str(i)] = gpt_response.choices[0].message.content
     
     print(f'{i+1}번째 처리 완료')
 
-# 엑셀로 저장하기
-response_df = pd.DataFrame(columns=['File', 'Chunk_ID', 'GPT Response', 'Llama Response'])
+# 데이터프레임 생성
+expert_response_df = pd.DataFrame(expert_data)
 
-# 각 청크 아이디에 대한 응답을 데이터프레임에 추가
-for file, chunks in gpt_ans.items():
-    for chunk_id, gpt_response in chunks.items():
-        if chunk_id in llama_ans[file]:
-            llama_response = llama_ans[file][chunk_id]
-            # 응답이 리스트 형태인 경우 각각의 답변을 별도의 행으로 추가
-            if isinstance(gpt_response, list):
-                for i in range(len(gpt_response)):
-                    response_df = response_df.append({'File': file, 'Chunk_ID': chunk_id,
-                                                      'GPT Response': gpt_response[i],
-                                                      'Llama Response': llama_response[i]}, ignore_index=True)
-            else:
-                response_df = response_df.append({'File': file, 'Chunk_ID': chunk_id,
-                                                  'GPT Response': gpt_response,
-                                                  'Llama Response': llama_response}, ignore_index=True)
-        else:
-            # 청크 아이디가 llama_ans에 없는 경우는 gpt_response만 추가
-            response_df = response_df.append({'File': file, 'Chunk_ID': chunk_id,
-                                              'GPT Response': gpt_response,
-                                              'Llama Response': None}, ignore_index=True)
+# CSV 파일로 저장
+expert_response_df.to_csv("./data/expert_responses.csv", index=False)
 
-# 엑셀 파일로 데이터프레임 저장
-response_df.to_excel("./data/response_extracted.xlsx", index=False)
+print("chunk_responses가 chunk_responses.csv 파일로 저장되었습니다.")
+
+for i in range(11):
+    row = expert_DB_filled.iloc[i]
+    query = row['질문'].split('\n')[0]
+    file = 
+    file_path = 'gpt_' + file + '.txt'
+    chunk_id = str(row['청크']).split('\n')[0]
+    
+    if file not in llama_ans:
+        expert_llama[file] = {}
+
+    llama_response = generate_response(system_message + query, data[file_path][chunk_id])
+    
+    if file not in gpt_ans:
+        expert_gpt[file] = {}
+
+    gpt_response = openai.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": system_message + query},
+            {"role": "user", "content": data[file_path][chunk_id]},
+        ]
+    )
+    
+    # 응답 추가
+    expert_data['File'].append(file)
+    expert_data['Chunk_ID'].append(chunk_id + str(i))
+    expert_data['Question'].append(system_message + query)
+    expert_data['Response_llama'].append(llama_response)
+    expert_data['Response_gpt'].append(gpt_response.choices[0].message.content)
+
+    expert_llama[file][chunk_id + str(i)] = llama_response
+    expert_gpt[file][chunk_id + str(i)] = gpt_response.choices[0].message.content
+    
+    print(f'{i+1}번째 처리 완료')
+
+# 데이터프레임 생성
+expert_response_df = pd.DataFrame(expert_data)
+
+# CSV 파일로 저장
+expert_response_df.to_excel("./data/expert_responses.xlsx", index=False)
+
+
