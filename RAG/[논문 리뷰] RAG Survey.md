@@ -20,11 +20,11 @@ RAG 구현하기 전 읽었을 땐 와닿지 않던 논문인데요. 구현한 �
 > _The choice between RAG and FT depends on the specific needs for data dynamics, customization, and computational capabilities in the application context._
 ![image](https://github.com/yuneun92/personal_study/assets/101092482/fb82dc65-6c22-463c-af9c-10ecce4fdfd3)
 
-- Prompt Engineering: leverages a model's inherent capabilities with minimum necessity for external knowledge and model adaptation
-- RAG: ideal for precise information retrieval tasks.
+- `Prompt Engineering`: leverages a model's inherent capabilities with minimum necessity for external knowledge and model adaptation
+- `RAG`: ideal for precise information retrieval tasks.
   - 👍 effetive utilization of external knowledge sources with high interpretability.
   - 👎 higher latency
-- FT: suitable for scenarios requiring replication of specific structures, styles, or formets
+- `FT`: suitable for scenarios requiring replication of specific structures, styles, or formets
   - 👍 deep customization of the model's behavior and styles.
     - reduce hallucination
   - 👎 more static, requiring retraining for updates
@@ -67,14 +67,19 @@ RAG 구현하기 전 읽었을 땐 와닿지 않던 논문인데요. 구현한 �
 
 #### [STEPS]
 
-1. RETRIEVAL
+1. `RETRIEVAL`
    - Source
      - Data structure
-      1. semi-structured data : PDF ...
+      1. semi-structured data : PDF ... (text + table)
+
+         처리하기 가장 어려운 데이터 타입..
+         - Text-2-SQL queries: TableGPT
+         - transform tables into text format
       2. structured data : knowledge graph (KG)
-2. GENERATION
+      3. unstructured data : text
+2. `GENERATION`
    - 
-3. AUGMENTATION
+3. `AUGMENTATION`
    -
    
 ---
