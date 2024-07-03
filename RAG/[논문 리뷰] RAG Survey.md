@@ -68,15 +68,26 @@ RAG 구현하기 전 읽었을 땐 와닿지 않던 논문인데요. 구현한 �
 #### [STEPS]
 
 1. `RETRIEVAL`
-   - Source
-     - Data structure
+   - **Source**
+     - `Data structure`
       1. semi-structured data : PDF ... (text + table)
 
          처리하기 가장 어려운 데이터 타입..
          - Text-2-SQL queries: TableGPT
          - transform tables into text format
       2. structured data : knowledge graph (KG)
+         - KnowledGPT : generates KB search queries and stores knowledge in a bersonalized base
+         - G-Retriever : GNNs + LLMs + RAG // Prize-Collecting Steiner Tree (PCST) optimization prob. for targeted graph retrieval.
       3. unstructured data : text
+      4. LLMs-Generated Content
+         - SKR: classifies questions as `known` or `unknown`, applying retrieval enhancement selectively.
+         - GenRead: replaces the retriever with an LLM genenrator ; better alignment with the pre-training objectives of causal lang. modeling.
+         - Selfmem: iteratively creates an unbounded memory pool with a retrieval-enhanced generator
+      - `Retrieval Granularity` : 청크를 너무 잘게 쪼개면 리트리버가 제대로 기능하기 더 어렵고, 청크 크기가 너무 크면 임베딩이 적절히 의미를 내포하지 못합니다.
+        1. 토큰, 구, 문장, `명제`, 청크, 문서 ...
+           - Proposition(명제): atomic expressions in the text, each encapsuating a unique factual segment and presented in a concise, self-contained natural language format.
+        2. KG : Entity, Triplet, sub-Graph
+     
 2. `GENERATION`
    - 
 3. `AUGMENTATION`
