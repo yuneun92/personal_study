@@ -2,8 +2,9 @@ RAG 구현하기 전 읽었을 땐 와닿지 않던 논문인데요. 구현한 �
 
 This is the review of 
 
-## Retrieval-Augmented Generation for Large Language Models: A Survey
+## 📄 Retrieval-Augmented Generation for Large Language Models: A Survey
 > Yunfan Gao et al.
+> 
 > 27 Mar 2024
 
 ### Background
@@ -19,13 +20,17 @@ This is the review of
 
 ### Overview of RAG
 
-[TYPES]
+#### [TYPES]
 
-1. Naive RAG
+1. `Naive RAG` : `"Retrieve-Read generation"` (Indexing → Retrieval → Generation)
+   - 
 2. Advanced RAG
+   - 
 3. Modular RAG
+   -
+---
 
-[STEPS]
+#### [STEPS]
 
 1. RETRIEVAL
 2. GENERATION
