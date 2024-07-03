@@ -6,11 +6,13 @@ RAG 구현하기 전 읽었을 땐 와닿지 않던 논문인데요. 구현한 �
 > 27 Mar 2024
 
 ### Background
-1. Rise of the Transformer architecture
+**1. Rise of the Transformer architecture**
    - The Transformer architecture focused on enhancing LMs by incorporating additional knowledge through Pre-Training Models, aiming refining pre-training techs.
-2. ChatGPT
+     
+**2. ChatGPT**
   - `ICL` (In-Context Learning)
-3. RAG's shift
+    
+**3. RAG's shift**
   - There had been RAG techs, but researches shifted their way:
       - (previous) providing better info. for LLMs
       - ▶️ answer more complex and knowledge-intensive tasks
