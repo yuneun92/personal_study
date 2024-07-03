@@ -26,11 +26,12 @@ This is the review of
    - `Indexing` : cleaning & extracting of raw data → chunking → encoding text and store vectors in vector database
    - `Retrieval` : transform a query into a vector repr → compute similarity score → priotize and retrieve the top K chunks
    - `Generation` : synthesize the query & selected chunks into a coherent prompt → LLM formulate a response
-   - **Drawbacks**
-     - Retrieval Challenges : precision, recall 👎 ▶️ misaligned / irrelevant chunks, missing crucial info.
-       - 유사도 점수에만 의존해 좋은 검색 성능을 갖는 것은 불가능에 가깝습니다. 저는 하이브리드 서치로 워드 임베딩 + LLM 임베딩을 사용했는데요, 이 역시 정확한 단어의 일치를 보는 것은 아니기 때문에 bm25까지 같이 사용할까 생각 중입니다.
-     - Generation Difficulties
-     - Augment Hurdles
+   - **`Drawbacks`**
+     - `Retrieval Challenges` : precision, recall 👎 ▶️ misaligned / irrelevant chunks, missing crucial info.
+       - 유사도 점수에만 의존해 좋은 검색 성능을 갖는 것은 불가능에 가깝습니다.
+       - 저는 하이브리드 서치로 워드 임베딩 + LLM 임베딩을 사용했는데요, 이 역시 정확한 단어의 일치를 보는 것은 아니기 때문에 bm25까지 같이 사용할까 생각 중입니다.
+     - `Generation Difficulties`
+     - `Augment Hurdles`
        
      이 약점들을 완전히 해소할 수 있는 RAG 기법이 있을지는 모르겠지만.. Advanced RAG에서 훨씬 좋은 결과를 보입니다.
 2. Advanced RAG
