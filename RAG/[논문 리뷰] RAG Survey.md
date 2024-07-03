@@ -64,14 +64,14 @@ RAG 구현하기 전 읽었을 땐 와닿지 않던 논문인데요. 구현한 �
        - 데이터의 품질을 저해하는 토큰이 많을 때, LLM은 답변을 잘 생성해내지 못합니다. 
        
 3. `Modular RAG`
-   - 💡 **Search Module** :
+   - **Search Module** :
      1. 특정 시나리오에 적응 - LLM 생성 코드, 쿼리 언어 등.
      2. 멀티 쿼리  - parellel vector search, re-ranking (단어 + 의미 모두 포착할 수 있도록)
-   - 💡 **Memory Module** :
+   - **Memory Module** :
      1. LLM에게 주는 데이터가 반복적인 자기 보완 과정에서도 기존의 데이터 분포와 유사하도록 함.
      2. 요약, 특정 데이터베이스에서의 검색, 다른 정보 스트림을 합치는 것 등
-   - 💡 **Predict Module**
-   - 💡 **Task Adapter Module**
+   - **Predict Module**
+   - **Task Adapter Module**
 
 ---
 
@@ -97,12 +97,34 @@ RAG 구현하기 전 읽었을 땐 와닿지 않던 논문인데요. 구현한 �
         1. 토큰, 구, 문장, `명제`, 청크, 문서 ...
            > **Proposition(명제)**: atomic expressions in the text, each encapsuating a unique factual segment and presented in a concise, self-contained natural language format.
         2. KG : Entity, Triplet, sub-Graph
-     
+   - **Indexing Optimization**
+     1. Chunking
+     2. Meta data Attachment
+     3. Structural Index
+        - Hierarchical Index Structure
+        - Knowledge Graph Index
+   - **Query Optimization**
+   - **Embedding**
+   - **Adapter**
 2. `GENERATION`
-   - 
+   - **Context Curation**
+   - **LLM Fine-Tuning**
 3. `AUGMENTATION`
-   -
-   
+   - **Iterative Retrieval**
+   - **Recursive Retrieval**
+   - **Adaptive Retrieval**
+
+### Task and Evaluation
+#### Downstream Task
+#### Evaluation
+1. Target
+2. Aspects
+3. Benchmarks and Tools
+
+### Discussion and Future Prospects
+#### RAG vs. Long Context
+#### RAG Robustness
+#### Hybrid Approaches
 ---
 
 ## 📄 A Survey on RAG Meeting LLMs: Towards Retrieval-Augmented Large Language Models
