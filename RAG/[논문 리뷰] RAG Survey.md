@@ -85,7 +85,7 @@ RAG 구현하기 전 읽었을 땐 와닿지 않던 논문인데요. 구현한 �
          - Selfmem: iteratively creates an unbounded memory pool with a retrieval-enhanced generator
       - `Retrieval Granularity` : 청크를 너무 잘게 쪼개면 리트리버가 제대로 기능하기 더 어렵고, 청크 크기가 너무 크면 임베딩이 적절히 의미를 내포하지 못합니다.
         1. 토큰, 구, 문장, `명제`, 청크, 문서 ...
-           - Proposition(명제): atomic expressions in the text, each encapsuating a unique factual segment and presented in a concise, self-contained natural language format.
+           > **Proposition(명제)**: atomic expressions in the text, each encapsuating a unique factual segment and presented in a concise, self-contained natural language format.
         2. KG : Entity, Triplet, sub-Graph
      
 2. `GENERATION`
